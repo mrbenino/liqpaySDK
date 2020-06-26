@@ -1,0 +1,28 @@
+<div id="root"></div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+	if(document.querySelector('#root')){
+		price = document.querySelector('#shopping-cart-totals-table>tbody>tr>td>span').innerText;
+		price_total = price.replace(/[^\d]+/g,"");
+		shopping_cart = document.querySelector('#shopping-cart-table>tbody').innerHTML;
+
+
+			axios({
+				method: 'POST',
+				withCredentials: true,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				url: 'https://marketcenter.com.ua/src/liqpay.php',
+				data: `price_total=${price_total}&shopping_cart=marketcenter.com.ua`
+			})
+			  .then(function (response) {
+				console.log(response);
+				let form = document.createElement("div");
+				form.innerHTML = response.data;
+				document.getElementById('root').appendChild(form);
+			  })
+			  .catch(function (error) {
+				console.log(error);
+			  });
+    };
+</script>
